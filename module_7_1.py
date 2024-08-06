@@ -3,6 +3,7 @@ class Product:
         self.name = name
         self.weight = weight
         self.category = category
+
     def __str__(self):
         return f'{self.name}, {self.weight}, {self.category}'
 
@@ -13,16 +14,21 @@ class Shop:
         self.__file_name = 'products.txt'
     def get_products(self):
         file = open(self.__file_name, 'r')
-        return file.read()
+        products = file.read()
+        file.close()
+        return products
+
+
     def add(self, *products):
         for prod in products:
-            file = self.get_products()
-            if prod.name in products:
-                return f'Продукт {prod.name} уже есть в магазине'
-            else:
+            existing_products = self.get_products()
+            if prod.name not in existing_products:
                 file2 = open(self.__file_name, 'a')
                 file2.write(f'{prod}\n')
                 file2.close()
+
+            else:
+                print(f'Продукт {prod.name} уже есть в магазине')
 
 s1 = Shop()
 p1 = Product('Potato', 50.5, 'Vegetables')
